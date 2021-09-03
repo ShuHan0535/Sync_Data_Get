@@ -6,7 +6,7 @@ SET(CMAKE_SYSTEM_NAME Linux)
 
 SET(PROJECT_ROOT_PATH ${PROJECT_BINARY_DIR}/.. ) 
 
-SET(PROJECT_COMPILE_TOOL_PATH ${PROJECT_ROOT_PATH}/tools/cross_compilation_tool/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu ) 
+SET(PROJECT_COMPILE_TOOL_PATH ${PROJECT_ROOT_PATH}/tools/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu ) 
 
 SET(CMAKE_C_COMPILER   ${PROJECT_COMPILE_TOOL_PATH}/bin/aarch64-linux-gnu-gcc)
 
