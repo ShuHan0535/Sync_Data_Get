@@ -1,1 +1,3 @@
-ADD_EXECUTABLE(hello main.cc)
+INCLUDE_DIRECTORIES( ${PROJECT_BINARY_DIR}/../src )
+SET (PROJECT_SENSOR_SRC sensor/common.cc)
+ADD_EXECUTABLE ( hello main.cc ${PROJECT_SENSOR_SRC} )
