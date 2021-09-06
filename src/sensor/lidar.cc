@@ -13,13 +13,14 @@ namespace sensor{
         //申请lidar数据帧
         data_process_=new lidar_data();
     }
+	
     Lidar::~Lidar(){
         delete [] nic_name_;
         delete [] data_raw_;
         delete data_process_;
     }
+
     int Lidar::Init(){
-        
 	    int recv_size = 16 * 1024 * 1024;    //设置UDP缓存区大小为16M
 	    memset(&server_addr_,0,sizeof(server_addr_)); //数据初始化--清零
 	    server_addr_.sin_family=AF_INET; //设置为IP通信 ipv4
@@ -62,6 +63,7 @@ namespace sensor{
 	    std::cout<<"lidar init success"<<std::endl;
 		return 0;
     };
+
     //数据采集
     int Lidar::DataCollection(){
         int len=0;
@@ -73,6 +75,7 @@ namespace sensor{
 		}
 		return 0;
     };
+
 	int Lidar::DataProcessing(){
 		//提取每个通道的入射角Azimuth 共12个通道的数据 提取每个通道的16组点云数据
 		for(int i=0;i<12;i++)
@@ -88,6 +91,7 @@ namespace sensor{
 		++data_process_->lidar_number;//LIDAR数据序列号
 		return 0;
 	}
+
 	//数据储存
 	int Lidar::DataStorage(){
 		int ret=0;
@@ -103,17 +107,13 @@ namespace sensor{
 	    uint32_t lidar_time_stamp=0;//激光HOT时间 us
 	    float lidar_number=0;//LIDAR数据序列号
     };
+
     int Lidar::Run(){
-		while(1){
+		while(RunOK){
 			if(DataCollection()||DataProcessing()||DataStorage()){
 				return -1;
 			}
 		}
 		return 0;
 	}
-
-
-
-
-
 }
