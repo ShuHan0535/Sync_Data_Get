@@ -30,7 +30,6 @@ private:
     std::string sensor_name_;//传感器名
     int directory_num_;//目录编号
     int file_fd_;//文件操作符
-
 };
 }
 

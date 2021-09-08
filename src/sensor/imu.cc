@@ -25,6 +25,7 @@ namespace sensor{
 		if(file_p->Init()){
 			return -1;
 		}
+        return 0;
     }
 
     int Imu::DataCollection(){
@@ -34,6 +35,7 @@ namespace sensor{
         ++data_process_->imu_number;
         return 0;
     }
+    
     int Imu::DataProcessing(){
         //imu数据处理
         return 0;
@@ -41,11 +43,20 @@ namespace sensor{
     int Imu::DataStorage(){
         int ret=0;
         if( (ret = write(file_p->GetFd(),data_process_,sizeof(imu_data)) < 0) ){
+            perror("Imu write:");
             return -1;
         }
         return 0;    
     }
 
+    int Imu::Run(){
+        while(RunOK){
+			if(DataCollection()||DataProcessing()||DataStorage()){
+				return -1;
+			}
+		}
+		return 0;
+    }
     struct Imu::imu_data{
         imu_data():imu_number(0){};
         int16_t imu_raw_data[48];//imu数据

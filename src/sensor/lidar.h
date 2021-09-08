@@ -22,14 +22,16 @@ public:
     Lidar(const char* nic,const uint16_t& port,const char* sensor_name,const int& director_num);
     ~Lidar() override;
     int Init() override;
+    int Run() override ;
+private:
+
     int DataCollection();
     int DataProcessing();
     int DataStorage();
-    int Run() override ;
-private:
+
     struct lidar_data;//lidar数据帧结构体
     struct lidar_data* data_process_;
-    static const int BUFFSIZE = 1248;//一帧Lidar数据的大小
+    static const size_t BUFFSIZE = 1248;//一帧Lidar数据的大小
     struct sockaddr_in server_addr_;   //服务器网络地址结构体
     struct sockaddr_in remote_addr_;   //客户端网络地址结构体
     uint8_t* data_raw_;//数据接收缓存区

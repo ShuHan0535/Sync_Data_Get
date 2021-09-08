@@ -21,11 +21,13 @@ public:
     Imu(const char* sensor_name,const int& director_num,std::shared_ptr<memory::MemOpt> &data_addr_ptr,const uint64_t& imu_data_offset);
     ~Imu() override;
     int Init() override;
+    int Run() override ;
+private:
+
     int DataCollection();
     int DataProcessing();
     int DataStorage();
-    int Run() override ;
-private:
+
     struct imu_data;//lidar数据帧结构体
     struct imu_data* data_process_;
     char* imu_addr_;//imu数据地址
