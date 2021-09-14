@@ -4,6 +4,9 @@
 
 #include "sensor/user.h"
 
+//Linux系统头文件
+#include <pthread.h>
+
 namespace sensor{
 //传感器抽象层
 class SensorAbstraction
@@ -15,9 +18,22 @@ public:
     virtual int Run()=0;
     virtual ~SensorAbstraction();
     static bool RunOK;
-    file::FileOpt* file_p;//采集该传感器数据对应的文件名
+    file::FileOpt* file_p;//采集该传感器数据对应的文件类
+    std::string sensor_name_;
+    void ThreadInit(int sche_algo,int pth_priority);//初始化线程函数
+    void StartThread();//启动传感器对应的采集线程
+
+private:
+    pthread_attr_t attr_;//线程属性结构体
+    sched_param param_;//线程参数结构体
+    pthread_t tid;//线程id    
 };
+//线程回调函数
+void* callback(void* arg);
+
+
 }
+
 namespace file{
   //文件操作类 用于储存传感器的数据的文件的创建 数据的保存
 class FileOpt{
@@ -26,7 +42,7 @@ public:
   ~FileOpt();
   int& GetFd();
   int Init();
-  std::string& GetDirectName();
+  std::string& GetDirectName() ;
 private:
     std::string sensor_name_;//传感器名
     int directory_num_;//目录编号
@@ -49,3 +65,4 @@ public:
   char* GetMemoryPhy(const uint64_t& offset);
 };
 } // namespace memory
+
